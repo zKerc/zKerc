@@ -27,3 +27,5 @@
 <p>&nbsp;<img align="center" src="https://github-readme-stats.vercel.app/api?username=zkerc&show_icons=true&theme=tokyonight&title_color=ffffff&text_color=ffffff&locale=en" alt="zkerc" /></p>
 
 <p><img align="center" src="https://github-readme-streak-stats.herokuapp.com/?user=zkerc&theme=highcontrast" alt="zkerc" /></p>
+
+![Snake animation](https://github.com/zKerc/)
