@@ -61,15 +61,16 @@ public class TransformPanel extends JPanel {
                 String anguloStr = JOptionPane.showInputDialog("Insira o ângulo de rotação (em graus):");
                 try {
                     double angulo = Double.parseDouble(anguloStr);
-                    Ponto2D centro = canvas.calcularCentro();  // Calcula o centro do objeto
-                    double[][] matrizRotacao = Transformacao.rotacionar(angulo, centro.x, centro.y);
-                    canvas.aplicarTransformacao(matrizRotacao, "Rotação em torno do centro: R(θ = " + angulo + "°)");
+                    Ponto2D pontoCentro = Transformacao.encontrarPontoMaisProximo(canvas.getPontos());
+                    double[][] matrizRotacao = Transformacao.rotacionar(angulo, pontoCentro.x, pontoCentro.y);
+                    canvas.aplicarTransformacao(matrizRotacao, "Rotação em torno do ponto mais próximo da origem: R(θ = " + angulo + "°)");
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Por favor, insira um valor numérico válido.");
                 }
             }
         });
         add(rotateButton);
+
 
         // Botão de Escalonamento
         JButton scaleButton = new JButton("Escalonar");

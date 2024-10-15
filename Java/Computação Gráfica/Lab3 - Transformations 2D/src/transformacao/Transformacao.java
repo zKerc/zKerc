@@ -67,6 +67,30 @@ public class Transformacao {
         }
     }
 
+    // Método para encontrar o ponto mais próximo da origem
+    public static Ponto2D encontrarPontoMaisProximo(List<Ponto2D> pontos) {
+        if (pontos == null || pontos.isEmpty()) return null;
+
+        Ponto2D pontoMaisProximo = pontos.get(0);
+        double menorDistancia = calcularDistancia(pontoMaisProximo, new Ponto2D(0, 0));
+
+        for (Ponto2D ponto : pontos) {
+            double distancia = calcularDistancia(ponto, new Ponto2D(0, 0));
+            if (distancia < menorDistancia) {
+                menorDistancia = distancia;
+                pontoMaisProximo = ponto;
+            }
+        }
+
+        return pontoMaisProximo;
+    }
+
+    // Método para calcular a distância entre dois pontos
+    private static double calcularDistancia(Ponto2D p1, Ponto2D p2) {
+        return Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
+    }
+    
+
     // Método para calcular o ponto médio (centro do objeto)
     public static Ponto2D calcularCentro(java.util.List<Ponto2D> pontos) {
         double somaX = 0;

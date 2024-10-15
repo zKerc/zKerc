@@ -18,6 +18,7 @@ public class Canvas2D extends JPanel {
         this.mathDisplayPanel = mathDisplayPanel;
         this.pontoDisplayPanel = pontoDisplayPanel;
         this.historicoEquacoes = new ArrayList<>();  // Inicializa o histórico das equações
+        this.pontos = new ArrayList<>();  // Inicializa a lista de pontos
         setBackground(Color.WHITE);  // Fundo branco liso
         setBorder(BorderFactory.createEmptyBorder());  // Remover bordas
     }
@@ -32,6 +33,10 @@ public class Canvas2D extends JPanel {
         pontos.add(new Ponto2D(x, y));
         atualizarPontoDisplayPanel();  // Atualiza as posições dos pontos no painel
         repaint();
+    }
+
+    public List<Ponto2D> getPontos() {  // Adicionado o método getPontos()
+        return pontos;
     }
 
     public void aplicarTransformacao(double[][] matriz, String descricao) {
@@ -143,34 +148,32 @@ public class Canvas2D extends JPanel {
         if (pontos == null || pontos.isEmpty()) return;
 
         g2d.setColor(Color.BLACK);
+        double scale = 20; // Fator de escala para visualizar os pontos
+
+        // Desenha as linhas entre os pontos
         for (int i = 0; i < pontos.size(); i++) {
             Ponto2D p = pontos.get(i);
-            int x = (int) (p.x + getWidth() / 2);  // Ajusta o ponto para o centro da tela
-            int y = (int) (getHeight() / 2 - p.y);
-
-            // Desenha o ponto
-            g2d.fillOval(x - 3, y - 3, 6, 6);
+            int x = (int) (p.x * scale + getWidth() / 2);  // Ajusta o ponto para o centro da tela
+            int y = (int) (getHeight() / 2 - p.y * scale); // Inverte o eixo Y
 
             // Desenha a linha para o próximo ponto
             if (i > 0) {
                 Ponto2D pAnterior = pontos.get(i - 1);
-                int xAnterior = (int) (pAnterior.x + getWidth() / 2);
-                int yAnterior = (int) (getHeight() / 2 - pAnterior.y);
+                int xAnterior = (int) (pAnterior.x * scale + getWidth() / 2);
+                int yAnterior = (int) (getHeight() / 2 - pAnterior.y * scale);
                 g2d.drawLine(xAnterior, yAnterior, x, y);
             }
-        }
 
-        // Fechar o polígono, se houver mais de dois pontos
-        if (pontos.size() > 2) {
-            Ponto2D primeiroPonto = pontos.get(0);
-            Ponto2D ultimoPonto = pontos.get(pontos.size() - 1);
-            int xPrimeiro = (int) (primeiroPonto.x + getWidth() / 2);
-            int yPrimeiro = (int) (getHeight() / 2 - primeiroPonto.y);
-            int xUltimo = (int) (ultimoPonto.x + getWidth() / 2);
-            int yUltimo = (int) (getHeight() / 2 - ultimoPonto.y);
-            g2d.drawLine(xUltimo, yUltimo, xPrimeiro, yPrimeiro);
+            // Fechar o polígono, se houver mais de dois pontos
+            if (i == pontos.size() - 1 && pontos.size() > 2) {
+                Ponto2D primeiroPonto = pontos.get(0);
+                int xPrimeiro = (int) (primeiroPonto.x * scale + getWidth() / 2);
+                int yPrimeiro = (int) (getHeight() / 2 - primeiroPonto.y * scale);
+                g2d.drawLine(x, y, xPrimeiro, yPrimeiro);
+            }
         }
     }
+
 
     private void desenharEixosCartesianos(Graphics2D g2d) {
         // Eixo X
